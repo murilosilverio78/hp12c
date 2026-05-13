@@ -149,6 +149,81 @@ const KEYS: KeyDef[][] = [
   ],
 ];
 
+// Landscape: authentic HP 12C 4-row × 10-column layout
+// ENTER spans 2 rows (col 6) — implemented via flex: 2 in the column-direction grid
+const LANDSCAPE_COLUMNS: KeyDef[][] = [
+  // col 1
+  [
+    { id: 'n', main: 'n', f: 'AMORT', g: '12×', variant: 'fn' },
+    { id: 'YX', main: 'yˣ', g: '√x', variant: 'fn' },
+    { id: 'AC', main: 'AC', f: 'CLEAR', variant: 'fn' },
+    { id: 'f', main: 'f', variant: 'fkey' },
+  ],
+  // col 2
+  [
+    { id: 'i', main: 'i', f: 'INT', g: '12÷', variant: 'fn' },
+    { id: 'INV', main: '1/x', g: 'eˣ', variant: 'fn' },
+    { id: 'BS', main: '⌫', variant: 'fn' },
+    { id: 'g', main: 'g', variant: 'gkey' },
+  ],
+  // col 3
+  [
+    { id: 'PV', main: 'PV', f: 'NPV', g: 'CFo', variant: 'fn' },
+    { id: 'PCT_T', main: '%T', g: 'LN', variant: 'fn' },
+    { id: 'RDN', main: 'R↓', variant: 'fn' },
+    { id: 'STO', main: 'STO', variant: 'fn' },
+  ],
+  // col 4
+  [
+    { id: 'PMT', main: 'PMT', f: 'RND', g: 'CFj', variant: 'fn' },
+    { id: 'DPCT', main: 'Δ%', variant: 'fn' },
+    { id: 'XY', main: 'x↔y', variant: 'fn' },
+    { id: 'RCL', main: 'RCL', variant: 'fn' },
+  ],
+  // col 5
+  [
+    { id: 'FV', main: 'FV', f: 'IRR', g: 'Nj', variant: 'fn' },
+    { id: 'PCT', main: '%', variant: 'fn' },
+    { id: 'CLx', main: 'CLx', f: 'CLEAR', g: 'Δ%', variant: 'fn' },
+    { id: 'PI', main: 'π', variant: 'fn' },
+  ],
+  // col 6 — only 3 cells, ENTER spans rows 3-4 (flex: 2)
+  [
+    { id: 'CHS', main: 'CHS', variant: 'fn' },
+    { id: 'EEX', main: 'EEX', g: 'π', variant: 'num' },
+    { id: 'ENTER', main: 'ENTER', g: 'LSTx', variant: 'enter', flex: 2 },
+  ],
+  // col 7
+  [
+    { id: '7', main: '7', f: 'BEG', variant: 'num' },
+    { id: '4', main: '4', f: 'SL', variant: 'num' },
+    { id: '1', main: '1', f: 'yˣ', g: 'LN', variant: 'num' },
+    { id: '0', main: '0', f: 'x!', variant: 'num' },
+  ],
+  // col 8
+  [
+    { id: '8', main: '8', f: 'END', variant: 'num' },
+    { id: '5', main: '5', f: 'SOYD', variant: 'num' },
+    { id: '2', main: '2', g: 'eˣ', variant: 'num' },
+    { id: 'DOT', main: '.', variant: 'num' },
+  ],
+  // col 9
+  [
+    { id: '9', main: '9', g: '%T', variant: 'num' },
+    { id: '6', main: '6', f: 'DDB', variant: 'num' },
+    { id: '3', main: '3', variant: 'num' },
+    { id: 'SUM', main: 'Σ+', g: 'CLΣ', variant: 'fn' },
+  ],
+  // col 10
+  [
+    { id: 'DIV', main: '÷', f: '√x', g: 'x²', variant: 'op' },
+    { id: 'MUL', main: '×', variant: 'op' },
+    { id: 'SUB', main: '−', variant: 'op' },
+    { id: 'ADD', main: '+', g: 'eˣ', variant: 'op' },
+  ],
+];
+
+
 export default function HP12C() {
   const [theme, setTheme] = useState<Theme>('classic');
   const [state, setState] = useState<CalcState>(() => initialState('RPN'));
@@ -772,6 +847,11 @@ export default function HP12C() {
       case 'EEX': setStatus('EEX: use notação direta'); haptic(); return;
       case 'STO': haptic(); setPendingMemOp('STO'); setStatus('STO → toque dígito 0-9'); return;
       case 'RCL': haptic(); setPendingMemOp('RCL'); setStatus('RCL → toque dígito 0-9'); return;
+      case 'YX': handleFShift('1'); return;
+      case 'PCT_T': handleGShift('9'); return;
+      case 'DPCT': handleGShift('CLx'); return;
+      case 'AC': doClearAll(); return;
+      case 'PI': haptic(); setState((s) => pushNumber(Math.PI, commitEntry(s))); return;
       case 'n': handleFinancialKey('n', 'n'); return;
       case 'i': handleFinancialKey('i', 'i'); return;
       case 'PV': handleFinancialKey('pv', 'PV'); return;
@@ -816,13 +896,12 @@ export default function HP12C() {
             transform: [{ scale: pressed ? 0.96 : 1 }],
           },
         ((isFActiveOnThis || isGActiveOnThis) && { borderColor: '#fff', borderWidth: 2 }) as any,
-        isLandscape && { minHeight: 32, paddingVertical: 2 },
         ]}
       >
         {k.f ? (
-          <Text style={[styles.fLabel, { color: t.fLabel, fontSize: isLandscape ? 8 : 9 }]} numberOfLines={1}>{k.f}</Text>
+          <Text style={[styles.fLabel, { color: t.fLabel, fontSize: isLandscape ? 10 : 9 }]} numberOfLines={1}>{k.f}</Text>
         ) : (
-          <View style={{ height: isLandscape ? 6 : 10 }} />
+          <View style={{ height: isLandscape ? 12 : 10 }} />
         )}
         <Text
           style={[
@@ -830,7 +909,7 @@ export default function HP12C() {
             {
               color: mainColor,
               fontSize: isLandscape
-                ? (k.main.length > 3 ? 10 : k.main === 'ENTER' ? 11 : 14)
+                ? (k.main.length > 3 ? 14 : k.main === 'ENTER' ? 14 : 20)
                 : (k.main.length > 3 ? 12 : k.main === 'ENTER' ? 13 : 17),
               fontWeight: k.variant === 'enter' ? '700' : '600',
             },
@@ -840,9 +919,9 @@ export default function HP12C() {
           {k.main}
         </Text>
         {k.g ? (
-          <Text style={[styles.gLabel, { color: t.gLabel, fontSize: isLandscape ? 8 : 9 }]} numberOfLines={1}>{k.g}</Text>
+          <Text style={[styles.gLabel, { color: t.gLabel, fontSize: isLandscape ? 10 : 9 }]} numberOfLines={1}>{k.g}</Text>
         ) : (
-          <View style={{ height: isLandscape ? 6 : 10 }} />
+          <View style={{ height: isLandscape ? 12 : 10 }} />
         )}
       </Pressable>
     );
@@ -913,34 +992,65 @@ export default function HP12C() {
             `n=${fmt(state.fin.n, 0)}  i=${fmt(state.fin.i, decimals)}%  PV=${fmt(state.fin.pv, decimals)}  PMT=${fmt(state.fin.pmt, decimals)}  FV=${fmt(state.fin.fv, decimals)}`}
         </Text>
 
-        <View style={[styles.keyboard, { gap: isLandscape ? 4 : 6 }]} testID="keypad-grid">
-          {KEYS.map((row, ri) => (
-            <View key={ri} style={[styles.row, { gap: isLandscape ? 4 : 6 }]}>
-              {row.map((k) => renderKey(k))}
-            </View>
-          ))}
-          {state.mode === 'ALG' && (
-            <View style={[styles.row, { gap: isLandscape ? 4 : 6 }]}>
-              <Pressable
-                testID="key-EQ"
-                onPress={doEquals}
-                style={({ pressed }) => [
-                  styles.key,
-                  {
-                    flex: 1,
-                    backgroundColor: t.accent,
-                    borderRadius: theme === 'classic' ? 4 : 12,
-                    opacity: pressed ? 0.7 : 1,
-                  },
-                ]}
-              >
-                <View style={{ height: 10 }} />
-                <Text style={[styles.keyMain, { color: '#000', fontWeight: '800', fontSize: 22 }]}>=</Text>
-                <View style={{ height: 10 }} />
-              </Pressable>
-            </View>
-          )}
-        </View>
+        {isLandscape ? (
+          <View style={[styles.landscapeGrid, { gap: 6 }]} testID="keypad-grid">
+            {LANDSCAPE_COLUMNS.map((col, ci) => (
+              <View key={ci} style={{ flex: 1, flexDirection: 'column', gap: 6 }}>
+                {col.map((k) => renderKey(k))}
+              </View>
+            ))}
+            {state.mode === 'ALG' && (
+              <View style={{ flex: 1, flexDirection: 'column', gap: 6, justifyContent: 'flex-end' }}>
+                <Pressable
+                  testID="key-EQ"
+                  onPress={doEquals}
+                  style={({ pressed }) => [
+                    styles.key,
+                    {
+                      flex: 1,
+                      backgroundColor: t.accent,
+                      borderRadius: theme === 'classic' ? 4 : 12,
+                      opacity: pressed ? 0.7 : 1,
+                    },
+                  ]}
+                >
+                  <View style={{ height: 10 }} />
+                  <Text style={[styles.keyMain, { color: '#000', fontWeight: '800', fontSize: 22 }]}>=</Text>
+                  <View style={{ height: 10 }} />
+                </Pressable>
+              </View>
+            )}
+          </View>
+        ) : (
+          <View style={[styles.keyboard, { gap: 6 }]} testID="keypad-grid">
+            {KEYS.map((row, ri) => (
+              <View key={ri} style={[styles.row, { gap: 6 }]}>
+                {row.map((k) => renderKey(k))}
+              </View>
+            ))}
+            {state.mode === 'ALG' && (
+              <View style={[styles.row, { gap: 6 }]}>
+                <Pressable
+                  testID="key-EQ"
+                  onPress={doEquals}
+                  style={({ pressed }) => [
+                    styles.key,
+                    {
+                      flex: 1,
+                      backgroundColor: t.accent,
+                      borderRadius: theme === 'classic' ? 4 : 12,
+                      opacity: pressed ? 0.7 : 1,
+                    },
+                  ]}
+                >
+                  <View style={{ height: 10 }} />
+                  <Text style={[styles.keyMain, { color: '#000', fontWeight: '800', fontSize: 22 }]}>=</Text>
+                  <View style={{ height: 10 }} />
+                </Pressable>
+              </View>
+            )}
+          </View>
+        )}
       </View>
 
       <Modal visible={showHistory} animationType="slide" transparent onRequestClose={() => setShowHistory(false)}>
@@ -1128,6 +1238,7 @@ const styles = StyleSheet.create({
   },
   statusTxt: { fontSize: 11, textAlign: 'center', paddingVertical: 2 },
   keyboard: { flex: 1, gap: 6 },
+  landscapeGrid: { flex: 1, flexDirection: 'row', gap: 6 },
   row: { flexDirection: 'row', gap: 6, flex: 1 },
   key: {
     flex: 1,
