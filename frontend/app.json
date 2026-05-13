@@ -3,7 +3,7 @@
     "name": "HP 12C Calculator",
     "slug": "hp12c",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/images/icon.png",
     "scheme": "hp12c",
     "userInterfaceStyle": "automatic",
