@@ -8,6 +8,7 @@ import {
   Modal,
   Pressable,
   Platform,
+  useWindowDimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -158,6 +159,8 @@ export default function HP12C() {
   const decimals = 2;
 
   const t = THEMES[theme];
+  const { width: winW, height: winH } = useWindowDimensions();
+  const isLandscape = winW > winH;
 
   useEffect(() => {
     (async () => {
@@ -812,20 +815,23 @@ export default function HP12C() {
             opacity: pressed ? 0.7 : 1,
             transform: [{ scale: pressed ? 0.96 : 1 }],
           },
-          (isFActiveOnThis || isGActiveOnThis) && { borderColor: '#fff', borderWidth: 2 },
+        ((isFActiveOnThis || isGActiveOnThis) && { borderColor: '#fff', borderWidth: 2 }) as any,
+        isLandscape && { minHeight: 32, paddingVertical: 2 },
         ]}
       >
         {k.f ? (
-          <Text style={[styles.fLabel, { color: t.fLabel }]} numberOfLines={1}>{k.f}</Text>
+          <Text style={[styles.fLabel, { color: t.fLabel, fontSize: isLandscape ? 8 : 9 }]} numberOfLines={1}>{k.f}</Text>
         ) : (
-          <View style={{ height: 10 }} />
+          <View style={{ height: isLandscape ? 6 : 10 }} />
         )}
         <Text
           style={[
             styles.keyMain,
             {
               color: mainColor,
-              fontSize: k.main.length > 3 ? 12 : k.main === 'ENTER' ? 13 : 17,
+              fontSize: isLandscape
+                ? (k.main.length > 3 ? 10 : k.main === 'ENTER' ? 11 : 14)
+                : (k.main.length > 3 ? 12 : k.main === 'ENTER' ? 13 : 17),
               fontWeight: k.variant === 'enter' ? '700' : '600',
             },
           ]}
@@ -834,9 +840,9 @@ export default function HP12C() {
           {k.main}
         </Text>
         {k.g ? (
-          <Text style={[styles.gLabel, { color: t.gLabel }]} numberOfLines={1}>{k.g}</Text>
+          <Text style={[styles.gLabel, { color: t.gLabel, fontSize: isLandscape ? 8 : 9 }]} numberOfLines={1}>{k.g}</Text>
         ) : (
-          <View style={{ height: 10 }} />
+          <View style={{ height: isLandscape ? 6 : 10 }} />
         )}
       </Pressable>
     );
@@ -845,9 +851,9 @@ export default function HP12C() {
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: t.bg }]} edges={['top', 'bottom']}>
       <StatusBar style="light" />
-      <View style={[styles.body, { backgroundColor: t.body }]} testID="calculator-body">
-        <View style={styles.topbar}>
-          <Text style={[styles.brand, { color: t.accent }]}>HP 12C</Text>
+      <View style={[styles.body, { backgroundColor: t.body, padding: isLandscape ? 6 : 10, gap: isLandscape ? 4 : 8 }]} testID="calculator-body">
+        <View style={[styles.topbar, isLandscape && { paddingVertical: 1 }]}>
+          <Text style={[styles.brand, { color: t.accent, fontSize: isLandscape ? 14 : 18 }]}>HP 12C</Text>
           <View style={styles.topRight}>
             <TouchableOpacity
               testID="toggle-mode"
@@ -880,8 +886,8 @@ export default function HP12C() {
           </View>
         </View>
 
-        <View style={[styles.bezel, { backgroundColor: t.bezel, borderColor: t.bezelInner }]}>
-          <View style={[styles.display, { backgroundColor: t.displayBg }]} testID="display-screen">
+        <View style={[styles.bezel, { backgroundColor: t.bezel, borderColor: t.bezelInner, padding: isLandscape ? 3 : 4 }]}>
+          <View style={[styles.display, { backgroundColor: t.displayBg, minHeight: isLandscape ? 56 : 90, paddingVertical: isLandscape ? 4 : 10 }]} testID="display-screen">
             <View style={styles.indicatorRow}>
               <Text style={[styles.ind, { color: state.shift === 'f' ? t.keyF : 'transparent' }]}>f</Text>
               <Text style={[styles.ind, { color: state.shift === 'g' ? t.keyG : 'transparent' }]}>g</Text>
@@ -891,7 +897,7 @@ export default function HP12C() {
               </Text>
               <Text style={[styles.ind, { color: pendingMemOp ? t.displayText : 'transparent' }]}>{pendingMemOp || ''}</Text>
             </View>
-            <Text testID="display-value" style={[styles.displayText, { color: t.displayText }]} numberOfLines={1} adjustsFontSizeToFit>
+            <Text testID="display-value" style={[styles.displayText, { color: t.displayText, fontSize: isLandscape ? 26 : 38 }]} numberOfLines={1} adjustsFontSizeToFit>
               {display}
             </Text>
             <View style={styles.stackRow}>
@@ -907,14 +913,14 @@ export default function HP12C() {
             `n=${fmt(state.fin.n, 0)}  i=${fmt(state.fin.i, decimals)}%  PV=${fmt(state.fin.pv, decimals)}  PMT=${fmt(state.fin.pmt, decimals)}  FV=${fmt(state.fin.fv, decimals)}`}
         </Text>
 
-        <View style={styles.keyboard} testID="keypad-grid">
+        <View style={[styles.keyboard, { gap: isLandscape ? 4 : 6 }]} testID="keypad-grid">
           {KEYS.map((row, ri) => (
-            <View key={ri} style={styles.row}>
+            <View key={ri} style={[styles.row, { gap: isLandscape ? 4 : 6 }]}>
               {row.map((k) => renderKey(k))}
             </View>
           ))}
           {state.mode === 'ALG' && (
-            <View style={styles.row}>
+            <View style={[styles.row, { gap: isLandscape ? 4 : 6 }]}>
               <Pressable
                 testID="key-EQ"
                 onPress={doEquals}
