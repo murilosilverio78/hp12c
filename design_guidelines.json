@@ -1,0 +1,116 @@
+{
+  "theme": "Dark",
+  "archetype": "Archetype 5: Jewel & Luxury (Adapted for high-end hardware emulation)",
+  "colors": {
+    "classic": {
+      "background": "#121212",
+      "surface": "#1E1E1E",
+      "display_bg": "#8B9E77",
+      "display_text": "#1A2016",
+      "key_numpad": "#E8E8E8",
+      "key_numpad_text": "#111111",
+      "key_function": "#2A2A2A",
+      "key_function_text": "#FFFFFF",
+      "key_f": "#D3A13B",
+      "key_g": "#5A94C7",
+      "bezel": "linear-gradient(135deg, #DFB967, #A57E2F)",
+      "text_f_label": "#D3A13B",
+      "text_g_label": "#5A94C7"
+    },
+    "modern": {
+      "background": "#050505",
+      "surface": "#141414",
+      "display_bg": "#0A0A0A",
+      "display_text": "#FFFFFF",
+      "display_glow": "rgba(255, 255, 255, 0.1)",
+      "key_numpad": "#1C1C1C",
+      "key_numpad_text": "#FFFFFF",
+      "key_function": "#111111",
+      "key_function_text": "#A0A0A0",
+      "key_f": "#E59E25",
+      "key_g": "#3B82F6",
+      "bezel": "#1A1A1A",
+      "text_f_label": "#E59E25",
+      "text_g_label": "#3B82F6",
+      "border_glow": "rgba(255, 255, 255, 0.05)"
+    }
+  },
+  "typography": {
+    "display": {
+      "family": "Space Mono, VT323, monospace",
+      "size": "text-4xl sm:text-5xl",
+      "weight": "font-normal",
+      "tracking": "tracking-widest"
+    },
+    "key_main": {
+      "family": "Work Sans, sans-serif",
+      "size": "text-lg sm:text-xl",
+      "weight": "font-bold"
+    },
+    "key_label": {
+      "family": "IBM Plex Mono, monospace",
+      "size": "text-[10px]",
+      "weight": "font-medium"
+    },
+    "ui_text": {
+      "family": "Work Sans, sans-serif",
+      "size": "text-sm",
+      "weight": "font-normal"
+    }
+  },
+  "layout_spacing": {
+    "general_padding": "p-4 sm:p-6",
+    "key_gap": "gap-2 sm:gap-3",
+    "display_padding": "p-4",
+    "bezel_padding": "p-2",
+    "key_border_radius": {
+      "classic": "rounded-sm",
+      "modern": "rounded-xl"
+    },
+    "portrait_grid": "grid-cols-5",
+    "landscape_grid": "grid-cols-10"
+  },
+  "motion_interactions": {
+    "key_press": "scale down 0.95 with 50ms duration, subtle opacity fade",
+    "theme_switch": "crossfade transition 300ms",
+    "history_slide": "slide up from bottom 200ms ease-out",
+    "haptic_feedback": "light vibration on every key press to simulate physical buttons"
+  },
+  "components": {
+    "display_screen": {
+      "description": "The main LCD area. Classic mode mimics a physical LCD with a greenish background and dark pixelated text. Modern mode uses an obsidian dark background with crisp white text. Both must display stack indicators (X, Y, Z, T) or operation states.",
+      "testid": "display-screen"
+    },
+    "keypad_grid": {
+      "description": "5-column grid for portrait layout. Groups financial keys (N, I, PV, PMT, FV) at the top row. Numpad at the bottom right. Must support absolute positioned f/g secondary functions around the main keys.",
+      "testid": "keypad-grid"
+    },
+    "calculator_key": {
+      "description": "Individual key component. Props needed: mainLabel, fLabel (top text), gLabel (bottom text), variant (numpad, function, enter, f, g). Needs contrasting styles based on theme.",
+      "testid": "calc-key"
+    },
+    "history_panel": {
+      "description": "Modal or bottom drawer showing previous calculations. Portuguese title 'Histórico'.",
+      "testid": "history-panel"
+    },
+    "memory_display": {
+      "description": "Persistent area or modal displaying the storage registers (R0-R9, financial registers). Portuguese title 'Memória'.",
+      "testid": "memory-display"
+    },
+    "toggle_controls": {
+      "description": "Top or bottom bar switches for Mode (RPN/ALG) and Theme (Clássico/Moderno).",
+      "testid": "settings-toggles"
+    }
+  },
+  "image_urls": {},
+  "instructions_to_main_agent": [
+    "Use StyleSheet in React Native to implement the color tokens and typography since it's an Expo app. If using NativeWind, map these to the tailwind config.",
+    "For Classic theme fidelity: The 'f' modifier label (gold/yellow) must be positioned slightly above the main key text. The 'g' modifier label (blue) must be positioned below the main key text.",
+    "Portuguese Localization required: 'Histórico' (History), 'Memória' (Memory), 'Alternar Tema' (Theme Toggle), 'RPN / ALG' (Mode Toggle).",
+    "Layout strategy for portrait: Break the classic 4x10 hardware grid into a mobile-friendly 5x8 vertical layout. Ensure the iconic financial keys (n, i, PV, PMT, FV) span the top row exactly as they do on the physical calculator.",
+    "Ensure 'CHS' and 'EEX' keys are adjacent to the numpad, and the 'ENTER' key is prominently styled.",
+    "Classic theme must include skeuomorphic details: A metallic/champagne colored bezel around the display and subtle shadow gradients on keys.",
+    "Modern theme should strip skeuomorphism: Use deep obsidian blacks (#050505), flat neumorphic buttons, and subtle white glow on text.",
+    "Include haptic feedback (Haptics API) on button presses to recreate the satisfying mechanical 'click' of the physical HP 12C."
+  ]
+}
