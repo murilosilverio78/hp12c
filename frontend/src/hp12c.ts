@@ -29,7 +29,7 @@ export interface CalcState {
   memory: number[]; // R0..R9
   display: string;
   entering: boolean; // typing digits into X
-  pendingOp: null | '+' | '-' | '*' | '/' | '^'; // for ALG mode
+  pendingOp: null | '+' | '-' | '*' | '/'; // for ALG mode
   algLeft: number | null; // ALG accumulator
   algJustEvaluated: boolean;
   history: HistoryEntry[];

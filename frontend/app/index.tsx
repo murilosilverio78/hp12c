@@ -43,30 +43,32 @@ const STORAGE_KEY = '@hp12c_state_v1';
 const THEMES = {
   classic: {
     bg: '#1a1a1a',
-    body: '#2a2a2a',
-    bezel: '#C9A24E',
-    bezelInner: '#8B6F2A',
+    body: '#252525',
+    headerBg: '#ACACAC',
+    bezel: '#9A9A9A',
+    bezelInner: '#787878',
     displayBg: '#9CB089',
     displayText: '#1A2016',
-    keyNum: '#E8E8E8',
-    keyNumText: '#111111',
-    keyFn: '#3a3a3a',
-    keyFnText: '#FFFFFF',
-    keyEnter: '#3a3a3a',
-    keyEnterText: '#FFFFFF',
-    keyF: '#D9A441',
-    keyG: '#5A94C7',
-    fLabel: '#D9A441',
-    gLabel: '#7DB6E0',
-    keyBorder: '#000000',
-    accent: '#D9A441',
-    secondary: '#5A94C7',
-    text: '#FFFFFF',
-    muted: '#999',
+    keyNum: '#222222',
+    keyNumText: '#DEDEDE',
+    keyFn: '#2C2C2C',
+    keyFnText: '#DEDEDE',
+    keyEnter: '#2C2C2C',
+    keyEnterText: '#DEDEDE',
+    keyF: '#D0650C',
+    keyG: '#4A7DC0',
+    fLabel: '#D0650C',
+    gLabel: '#4A7DC0',
+    keyBorder: '#111111',
+    accent: '#D0650C',
+    secondary: '#4A7DC0',
+    text: '#DEDEDE',
+    muted: '#888',
   },
   modern: {
     bg: '#0A0A0A',
     body: '#141414',
+    headerBg: '#1F1F1F',
     bezel: '#1F1F1F',
     bezelInner: '#0A0A0A',
     displayBg: '#0E0E0E',
@@ -107,119 +109,128 @@ const KEYS: KeyDef[][] = [
     { id: 'FV', main: 'FV', f: 'IRR', g: 'Nj', variant: 'fn' },
   ],
   [
+    { id: 'MENU', main: 'MENU', variant: 'fn' },
     { id: 'f', main: 'f', variant: 'fkey' },
     { id: 'g', main: 'g', variant: 'gkey' },
-    { id: 'STO', main: 'STO', variant: 'fn' },
-    { id: 'RCL', main: 'RCL', variant: 'fn' },
-    { id: 'CHS', main: 'CHS', variant: 'fn' },
+    { id: 'STO', main: 'STO', f: '(', variant: 'fn' },
+    { id: 'RCL', main: 'RCL', f: ')', variant: 'fn' },
   ],
   [
-    { id: 'ENTER', main: 'ENTER', g: 'LSTx', variant: 'enter', flex: 2 },
-    { id: 'XY', main: 'x↔y', variant: 'fn' },
-    { id: 'RDN', main: 'R↓', variant: 'fn' },
-    { id: 'DIV', main: '÷', f: '√x', g: 'x²', variant: 'op' },
+    { id: 'YX', main: 'yˣ', f: 'PRICE', g: '√x', variant: 'fn' },
+    { id: 'INV', main: '1/x', f: 'YTM', g: 'eˣ', variant: 'fn' },
+    { id: 'PCT_T', main: '%T', f: 'SL', g: 'LN', variant: 'fn' },
+    { id: 'DPCT', main: 'Δ%', f: 'SOYD', g: 'FRAC', variant: 'fn' },
+    { id: 'PCT', main: '%', f: 'DB', g: 'INTG', variant: 'fn' },
   ],
   [
-    { id: '7', main: '7', f: 'BEG', variant: 'num' },
-    { id: '8', main: '8', f: 'END', variant: 'num' },
-    { id: '9', main: '9', g: '%T', variant: 'num' },
-    { id: 'MUL', main: '×', variant: 'op' },
-    { id: 'CLx', main: 'CLx', f: 'CLEAR', g: 'Δ%', variant: 'fn' },
+    { id: 'RS', main: 'R/S', f: 'P/R', g: 'PSE', variant: 'fn' },
+    { id: 'SST', main: 'SST', f: 'Σ', g: 'BST', variant: 'fn' },
+    { id: 'RDN', main: 'R↓', f: 'PRGM', g: 'GTO', variant: 'fn' },
+    { id: 'XGY', main: 'x≥y', f: 'FIN', g: 'x≤y', variant: 'fn' },
+    { id: 'CLX', main: 'CLX', f: 'REG', g: 'x=0', variant: 'fn' },
   ],
   [
-    { id: '4', main: '4', f: 'SL', variant: 'num' },
-    { id: '5', main: '5', f: 'SOYD', variant: 'num' },
-    { id: '6', main: '6', f: 'DDB', variant: 'num' },
-    { id: 'SUB', main: '−', variant: 'op' },
-    { id: 'PCT', main: '%', variant: 'fn' },
+    { id: 'ENTER', main: 'ENTER', f: 'PREFIX', g: '=', variant: 'enter', flex: 2 },
+    { id: 'CHS', main: 'CHS', f: 'RPN', g: 'DATE', variant: 'fn' },
+    { id: 'EEX', main: 'EEX', f: 'ALG', g: 'ΔDYS', variant: 'fn' },
+    { id: 'DIV', main: '÷', g: '^', variant: 'op' },
   ],
   [
-    { id: '1', main: '1', f: 'yˣ', g: 'LN', variant: 'num' },
-    { id: '2', main: '2', g: 'eˣ', variant: 'num' },
-    { id: '3', main: '3', variant: 'num' },
-    { id: 'ADD', main: '+', g: 'eˣ', variant: 'op' },
-    { id: 'INV', main: '1/x', variant: 'fn' },
+    { id: '7', main: '7', g: 'BEG', variant: 'num' },
+    { id: '8', main: '8', g: 'END', variant: 'num' },
+    { id: '9', main: '9', g: 'MEM', variant: 'num' },
+    { id: 'MUL', main: '×', g: 'x²', variant: 'op' },
   ],
   [
-    { id: '0', main: '0', f: 'x!', variant: 'num' },
-    { id: 'DOT', main: '.', variant: 'num' },
-    { id: 'EEX', main: 'EEX', g: 'π', variant: 'num' },
-    { id: 'SUM', main: 'Σ+', g: 'CLΣ', variant: 'fn' },
-    { id: 'BS', main: '⌫', variant: 'fn' },
+    { id: '4', main: '4', g: 'D.MY', variant: 'num' },
+    { id: '5', main: '5', g: 'M.DY', variant: 'num' },
+    { id: '6', main: '6', g: 'x̄w', variant: 'num' },
+    { id: 'SUB', main: '−', g: '←', variant: 'op' },
+  ],
+  [
+    { id: '1', main: '1', g: 'x̂,r', variant: 'num' },
+    { id: '2', main: '2', g: 'ŷ,r', variant: 'num' },
+    { id: '3', main: '3', g: 'n!', variant: 'num' },
+    { id: 'ADD', main: '+', g: 'LST x', variant: 'op' },
+  ],
+  [
+    { id: '0', main: '0', g: 'x̄', variant: 'num' },
+    { id: 'DOT', main: '•', g: 's', variant: 'num' },
+    { id: 'SUM', main: 'Σ+', g: 'Σ-', variant: 'fn' },
   ],
 ];
 
-// Landscape: authentic HP 12C 4-row × 10-column layout
-// ENTER spans 2 rows (col 6) — implemented via flex: 2 in the column-direction grid
+// Landscape: HP 12c Platinum 4-row × 10-column layout
+// ENTER spans rows 3-4 (col 6) — implemented via flex: 2 in the column-direction grid
 const LANDSCAPE_COLUMNS: KeyDef[][] = [
   // col 1
   [
     { id: 'n', main: 'n', f: 'AMORT', g: '12×', variant: 'fn' },
-    { id: 'YX', main: 'yˣ', g: '√x', variant: 'fn' },
-    { id: 'AC', main: 'AC', f: 'CLEAR', variant: 'fn' },
-    { id: 'f', main: 'f', variant: 'fkey' },
+    { id: 'YX', main: 'yˣ', f: 'PRICE', g: '√x', variant: 'fn' },
+    { id: 'RS', main: 'R/S', f: 'P/R', g: 'PSE', variant: 'fn' },
+    { id: 'MENU', main: 'MENU', variant: 'fn' },
   ],
   // col 2
   [
     { id: 'i', main: 'i', f: 'INT', g: '12÷', variant: 'fn' },
-    { id: 'INV', main: '1/x', g: 'eˣ', variant: 'fn' },
-    { id: 'BS', main: '⌫', variant: 'fn' },
-    { id: 'g', main: 'g', variant: 'gkey' },
+    { id: 'INV', main: '1/x', f: 'YTM', g: 'eˣ', variant: 'fn' },
+    { id: 'SST', main: 'SST', f: 'Σ', g: 'BST', variant: 'fn' },
+    { id: 'f', main: 'f', variant: 'fkey' },
   ],
   // col 3
   [
     { id: 'PV', main: 'PV', f: 'NPV', g: 'CFo', variant: 'fn' },
-    { id: 'PCT_T', main: '%T', g: 'LN', variant: 'fn' },
-    { id: 'RDN', main: 'R↓', variant: 'fn' },
-    { id: 'STO', main: 'STO', variant: 'fn' },
+    { id: 'PCT_T', main: '%T', f: 'SL', g: 'LN', variant: 'fn' },
+    { id: 'RDN', main: 'R↓', f: 'PRGM', g: 'GTO', variant: 'fn' },
+    { id: 'g', main: 'g', variant: 'gkey' },
   ],
   // col 4
   [
     { id: 'PMT', main: 'PMT', f: 'RND', g: 'CFj', variant: 'fn' },
-    { id: 'DPCT', main: 'Δ%', variant: 'fn' },
-    { id: 'XY', main: 'x↔y', variant: 'fn' },
-    { id: 'RCL', main: 'RCL', variant: 'fn' },
+    { id: 'DPCT', main: 'Δ%', f: 'SOYD', g: 'FRAC', variant: 'fn' },
+    { id: 'XGY', main: 'x≥y', f: 'FIN', g: 'x≤y', variant: 'fn' },
+    { id: 'STO', main: 'STO', f: '(', variant: 'fn' },
   ],
   // col 5
   [
     { id: 'FV', main: 'FV', f: 'IRR', g: 'Nj', variant: 'fn' },
-    { id: 'PCT', main: '%', variant: 'fn' },
-    { id: 'CLx', main: 'CLx', f: 'CLEAR', g: 'Δ%', variant: 'fn' },
-    { id: 'PI', main: 'π', variant: 'fn' },
+    { id: 'PCT', main: '%', f: 'DB', g: 'INTG', variant: 'fn' },
+    { id: 'CLX', main: 'CLX', f: 'REG', g: 'x=0', variant: 'fn' },
+    { id: 'RCL', main: 'RCL', f: ')', variant: 'fn' },
   ],
   // col 6 — only 3 cells, ENTER spans rows 3-4 (flex: 2)
   [
-    { id: 'CHS', main: 'CHS', variant: 'fn' },
-    { id: 'EEX', main: 'EEX', g: 'π', variant: 'num' },
-    { id: 'ENTER', main: 'ENTER', g: 'LSTx', variant: 'enter', flex: 2 },
+    { id: 'CHS', main: 'CHS', f: 'RPN', g: 'DATE', variant: 'fn' },
+    { id: 'EEX', main: 'EEX', f: 'ALG', g: 'ΔDYS', variant: 'fn' },
+    { id: 'ENTER', main: 'ENTER', f: 'PREFIX', g: '=', variant: 'enter', flex: 2 },
   ],
   // col 7
   [
-    { id: '7', main: '7', f: 'BEG', variant: 'num' },
-    { id: '4', main: '4', f: 'SL', variant: 'num' },
-    { id: '1', main: '1', f: 'yˣ', g: 'LN', variant: 'num' },
-    { id: '0', main: '0', f: 'x!', variant: 'num' },
+    { id: '7', main: '7', g: 'BEG', variant: 'num' },
+    { id: '4', main: '4', g: 'D.MY', variant: 'num' },
+    { id: '1', main: '1', g: 'x̂,r', variant: 'num' },
+    { id: '0', main: '0', g: 'x̄', variant: 'num' },
   ],
   // col 8
   [
-    { id: '8', main: '8', f: 'END', variant: 'num' },
-    { id: '5', main: '5', f: 'SOYD', variant: 'num' },
-    { id: '2', main: '2', g: 'eˣ', variant: 'num' },
-    { id: 'DOT', main: '.', variant: 'num' },
+    { id: '8', main: '8', g: 'END', variant: 'num' },
+    { id: '5', main: '5', g: 'M.DY', variant: 'num' },
+    { id: '2', main: '2', g: 'ŷ,r', variant: 'num' },
+    { id: 'DOT', main: '•', g: 's', variant: 'num' },
   ],
   // col 9
   [
-    { id: '9', main: '9', g: '%T', variant: 'num' },
-    { id: '6', main: '6', f: 'DDB', variant: 'num' },
-    { id: '3', main: '3', variant: 'num' },
-    { id: 'SUM', main: 'Σ+', g: 'CLΣ', variant: 'fn' },
+    { id: '9', main: '9', g: 'MEM', variant: 'num' },
+    { id: '6', main: '6', g: 'x̄w', variant: 'num' },
+    { id: '3', main: '3', g: 'n!', variant: 'num' },
+    { id: 'SUM', main: 'Σ+', g: 'Σ-', variant: 'fn' },
   ],
   // col 10
   [
-    { id: 'DIV', main: '÷', f: '√x', g: 'x²', variant: 'op' },
-    { id: 'MUL', main: '×', variant: 'op' },
-    { id: 'SUB', main: '−', variant: 'op' },
-    { id: 'ADD', main: '+', g: 'eˣ', variant: 'op' },
+    { id: 'DIV', main: '÷', g: '^', variant: 'op' },
+    { id: 'MUL', main: '×', g: 'x²', variant: 'op' },
+    { id: 'SUB', main: '−', g: '←', variant: 'op' },
+    { id: 'ADD', main: '+', g: 'LST x', variant: 'op' },
   ],
 ];
 
@@ -597,7 +608,25 @@ export default function HP12C() {
   const handleFShift = (id: string) => {
     haptic();
     switch (id) {
-      case 'CLx': doClearAll(); return;
+      case 'CLX': case 'CLx': doClearAll(); return;
+      case 'CHS':
+        setState((s) => ({ ...s, mode: 'RPN', algLeft: null, pendingOp: null }));
+        setStatus('Modo RPN'); return;
+      case 'EEX':
+        setState((s) => ({ ...s, mode: 'ALG', algLeft: null, pendingOp: null }));
+        setStatus('Modo ALG'); return;
+      case 'PCT_T': depreciation('SL'); return;
+      case 'DPCT': depreciation('SOYD'); return;
+      case 'PCT': depreciation('DDB'); return;
+      case 'RS': setStatus('P/R — não impl.'); return;
+      case 'SST': setStatus('Σ — não impl.'); return;
+      case 'RDN': setStatus('PRGM — não impl.'); return;
+      case 'XGY': setStatus('FIN — não impl.'); return;
+      case 'YX': setStatus('PRICE — não impl.'); return;
+      case 'INV': setStatus('YTM — não impl.'); return;
+      case 'STO': setStatus('( — não impl.'); return;
+      case 'RCL': setStatus(') — não impl.'); return;
+      case 'ENTER': setStatus('PREFIX — não impl.'); return;
       case 'n':
         setState((s) => {
           const c = commitEntry(s);
@@ -652,42 +681,6 @@ export default function HP12C() {
           return { ...c, stack: { ...c.stack, x: res } };
         });
         return;
-      case '4': depreciation('SL'); return;
-      case '5': depreciation('SOYD'); return;
-      case '6': depreciation('DDB'); return;
-      case 'DIV':
-        setState((s) => {
-          const c = commitEntry(s);
-          if (c.stack.x < 0) { setStatus('Erro: √ neg'); return c; }
-          const res = Math.sqrt(c.stack.x);
-          addHistory(`√${fmt(c.stack.x, decimals)}`, res);
-          return { ...c, stack: { ...c.stack, x: res, lastX: c.stack.x } };
-        });
-        return;
-      case '1':
-        setState((s) => {
-          const c = commitEntry(s);
-          const res = Math.pow(c.stack.y, c.stack.x);
-          addHistory(`${fmt(c.stack.y, decimals)}^${fmt(c.stack.x, decimals)}`, res);
-          return { ...c, stack: { x: res, y: c.stack.z, z: c.stack.t, t: c.stack.t, lastX: c.stack.x } };
-        });
-        return;
-      case '0':
-        setState((s) => {
-          const c = commitEntry(s);
-          const n = Math.floor(c.stack.x);
-          if (n < 0 || n > 170) { setStatus('Erro factorial'); return c; }
-          let f = 1; for (let k = 2; k <= n; k++) f *= k;
-          addHistory(`${n}!`, f);
-          return { ...c, stack: { ...c.stack, x: f, lastX: c.stack.x } };
-        });
-        return;
-      case '7':
-        setStatus('Modo BEG (início de período) — não usado neste solver');
-        return;
-      case '8':
-        setStatus('Modo END (fim de período) — padrão');
-        return;
       default:
         setStatus('f+' + id + ' não impl.');
     }
@@ -696,6 +689,76 @@ export default function HP12C() {
   const handleGShift = (id: string) => {
     haptic();
     switch (id) {
+      case 'YX':
+        setState((s) => {
+          const c = commitEntry(s);
+          if (c.stack.x < 0) { setStatus('Erro: √ neg'); return c; }
+          const res = Math.sqrt(c.stack.x);
+          addHistory(`√${fmt(c.stack.x, decimals)}`, res);
+          return { ...c, stack: { ...c.stack, x: res, lastX: c.stack.x } };
+        }); return;
+      case 'INV':
+        setState((s) => {
+          const c = commitEntry(s);
+          const r = Math.exp(c.stack.x);
+          addHistory(`e^${fmt(c.stack.x, decimals)}`, r);
+          return { ...c, stack: { ...c.stack, x: r, lastX: c.stack.x } };
+        }); return;
+      case 'PCT_T':
+        setState((s) => {
+          const c = commitEntry(s);
+          if (c.stack.x <= 0) { setStatus('Erro LN'); return c; }
+          const r = Math.log(c.stack.x);
+          addHistory(`ln(${fmt(c.stack.x, decimals)})`, r);
+          return { ...c, stack: { ...c.stack, x: r, lastX: c.stack.x } };
+        }); return;
+      case 'MUL':
+        setState((s) => {
+          const c = commitEntry(s);
+          const r = c.stack.x * c.stack.x;
+          addHistory(`${fmt(c.stack.x, decimals)}²`, r);
+          return { ...c, stack: { ...c.stack, x: r, lastX: c.stack.x } };
+        }); return;
+      case 'DIV':
+        setState((s) => {
+          const c = commitEntry(s);
+          const res = Math.pow(c.stack.y, c.stack.x);
+          addHistory(`${fmt(c.stack.y, decimals)}^${fmt(c.stack.x, decimals)}`, res);
+          return { ...c, stack: { x: res, y: c.stack.z, z: c.stack.t, t: c.stack.t, lastX: c.stack.x } };
+        }); return;
+      case 'SUB': doBackspace(); return;
+      case '3':
+        setState((s) => {
+          const c = commitEntry(s);
+          const n = Math.floor(c.stack.x);
+          if (n < 0 || n > 170) { setStatus('Erro factorial'); return c; }
+          let f = 1; for (let k = 2; k <= n; k++) f *= k;
+          addHistory(`${n}!`, f);
+          return { ...c, stack: { ...c.stack, x: f, lastX: c.stack.x } };
+        }); return;
+      case 'ADD':
+        setState((s) => pushNumber(s.stack.lastX, commitEntry(s)));
+        setStatus('LST x'); return;
+      case '9': haptic(); setShowMemory(true); return;
+      case 'CHS': setStatus('DATE — não impl.'); return;
+      case 'DPCT': setStatus('FRAC — não impl.'); return;
+      case 'PCT': setStatus('INTG — não impl.'); return;
+      case 'EEX': setStatus('ΔDYS — não impl.'); return;
+      case '4': setStatus('D.MY — não impl.'); return;
+      case '5': setStatus('M.DY — não impl.'); return;
+      case '6': setStatus('x̄w — não impl.'); return;
+      case '0': setStatus('x̄ — não impl.'); return;
+      case 'DOT': setStatus('s — não impl.'); return;
+      case 'SUM': setStatus('Σ- — não impl.'); return;
+      case 'RS': setStatus('PSE — não impl.'); return;
+      case 'SST': setStatus('BST — não impl.'); return;
+      case 'RDN': setStatus('GTO — não impl.'); return;
+      case 'XGY': setStatus('x≤y — não impl.'); return;
+      case 'CLX': setStatus('x=0 — não impl.'); return;
+      case '7': setStatus('BEG — não impl.'); return;
+      case '8': setStatus('END — não impl.'); return;
+      case '1': setStatus('x̂,r — não impl.'); return;
+      case '2': setStatus('ŷ,r — não impl.'); return;
       case 'n':
         setState((s) => {
           const c = commitEntry(s);
@@ -741,60 +804,9 @@ export default function HP12C() {
           return { ...c, fin: { ...c.fin, cashflows: cfs } };
         });
         return;
-      case '1':
-        setState((s) => {
-          const c = commitEntry(s);
-          if (c.stack.x <= 0) { setStatus('Erro LN'); return c; }
-          const r = Math.log(c.stack.x);
-          addHistory(`ln(${fmt(c.stack.x, decimals)})`, r);
-          return { ...c, stack: { ...c.stack, x: r, lastX: c.stack.x } };
-        });
-        return;
-      case '2':
-      case 'ADD':
-        setState((s) => {
-          const c = commitEntry(s);
-          const r = Math.exp(c.stack.x);
-          addHistory(`e^${fmt(c.stack.x, decimals)}`, r);
-          return { ...c, stack: { ...c.stack, x: r, lastX: c.stack.x } };
-        });
-        return;
-      case 'DIV':
-        setState((s) => {
-          const c = commitEntry(s);
-          const r = c.stack.x * c.stack.x;
-          addHistory(`${fmt(c.stack.x, decimals)}²`, r);
-          return { ...c, stack: { ...c.stack, x: r, lastX: c.stack.x } };
-        });
-        return;
-      case 'EEX':
-        setState((s) => pushNumber(Math.PI, commitEntry(s)));
-        return;
       case 'ENTER':
         setState((s) => pushNumber(s.stack.lastX, commitEntry(s)));
-        return;
-      case 'SUM':
-        setState((s) => ({ ...s, fin: { ...s.fin, cashflows: [] } }));
-        setStatus('CLΣ - fluxos limpos');
-        return;
-      case 'CLx':
-        setState((s) => {
-          const c = commitEntry(s);
-          if (c.stack.y === 0) { setStatus('Erro Δ%'); return c; }
-          const r = ((c.stack.x - c.stack.y) / c.stack.y) * 100;
-          addHistory(`Δ% ${fmt(c.stack.y, decimals)}→${fmt(c.stack.x, decimals)}`, r);
-          return { ...c, stack: { ...c.stack, x: r, lastX: c.stack.x } };
-        });
-        return;
-      case '9':
-        setState((s) => {
-          const c = commitEntry(s);
-          if (c.stack.y === 0) { setStatus('Erro %T'); return c; }
-          const r = (c.stack.x / c.stack.y) * 100;
-          addHistory(`%T ${fmt(c.stack.x, decimals)}/${fmt(c.stack.y, decimals)}`, r);
-          return { ...c, stack: { ...c.stack, x: r, lastX: c.stack.x } };
-        });
-        return;
+        setStatus('LSTx'); return;
       default:
         setStatus('g+' + id + ' não impl.');
     }
@@ -837,9 +849,7 @@ export default function HP12C() {
       case 'MUL': doBinaryOp('*'); return;
       case 'DIV': doBinaryOp('/'); return;
       case 'ENTER': doEnter(); return;
-      case 'BS': doBackspace(); return;
-      case 'CLx': doClearX(); return;
-      case 'XY': doSwapXY(); return;
+      case 'CLX': case 'CLx': doClearX(); return;
       case 'RDN': doRollDown(); return;
       case 'PCT': doPercent(); return;
       case 'INV': doInverse(); return;
@@ -847,11 +857,35 @@ export default function HP12C() {
       case 'EEX': setStatus('EEX: use notação direta'); haptic(); return;
       case 'STO': haptic(); setPendingMemOp('STO'); setStatus('STO → toque dígito 0-9'); return;
       case 'RCL': haptic(); setPendingMemOp('RCL'); setStatus('RCL → toque dígito 0-9'); return;
-      case 'YX': handleFShift('1'); return;
-      case 'PCT_T': handleGShift('9'); return;
-      case 'DPCT': handleGShift('CLx'); return;
-      case 'AC': doClearAll(); return;
-      case 'PI': haptic(); setState((s) => pushNumber(Math.PI, commitEntry(s))); return;
+      case 'YX':
+        haptic();
+        setState((s) => {
+          const c = commitEntry(s);
+          const res = Math.pow(c.stack.y, c.stack.x);
+          addHistory(`${fmt(c.stack.y, decimals)}^${fmt(c.stack.x, decimals)}`, res);
+          return { ...c, stack: { x: res, y: c.stack.z, z: c.stack.t, t: c.stack.t, lastX: c.stack.x } };
+        }); return;
+      case 'PCT_T': haptic(); handleGShift('PCT_T'); return;
+      case 'DPCT':
+        haptic();
+        setState((s) => {
+          const c = commitEntry(s);
+          if (c.stack.y === 0) { setStatus('Erro Δ%'); return c; }
+          const r = ((c.stack.x - c.stack.y) / c.stack.y) * 100;
+          addHistory(`Δ% ${fmt(c.stack.y, decimals)}→${fmt(c.stack.x, decimals)}`, r);
+          return { ...c, stack: { ...c.stack, x: r, lastX: c.stack.x } };
+        }); return;
+      case 'RS': haptic(); setStatus('R/S — não impl.'); return;
+      case 'SST': haptic(); setStatus('SST — não impl.'); return;
+      case 'XGY':
+        haptic();
+        setState((s) => {
+          const c = commitEntry(s);
+          const result = c.stack.x >= c.stack.y;
+          setStatus(`x≥y: ${fmt(c.stack.x, decimals)} ${result ? '≥' : '<'} ${fmt(c.stack.y, decimals)}`);
+          return c;
+        }); return;
+      case 'MENU': haptic(); setShowHelp(true); return;
       case 'n': handleFinancialKey('n', 'n'); return;
       case 'i': handleFinancialKey('i', 'i'); return;
       case 'PV': handleFinancialKey('pv', 'PV'); return;
@@ -931,58 +965,64 @@ export default function HP12C() {
     <SafeAreaView style={[styles.safe, { backgroundColor: t.bg }]} edges={['top', 'bottom']}>
       <StatusBar style="light" />
       <View style={[styles.body, { backgroundColor: t.body, padding: isLandscape ? 6 : 10, gap: isLandscape ? 4 : 8 }]} testID="calculator-body">
-        <View style={[styles.topbar, isLandscape && { paddingVertical: 1 }]}>
-          <Text style={[styles.brand, { color: t.accent, fontSize: isLandscape ? 14 : 18 }]}>HP 12C</Text>
-          <View style={styles.topRight}>
-            <TouchableOpacity
-              testID="toggle-mode"
-              onPress={() => {
-                haptic();
-                setState((s) => ({ ...s, mode: s.mode === 'RPN' ? 'ALG' : 'RPN', algLeft: null, pendingOp: null }));
-              }}
-              style={[styles.pill, { borderColor: t.accent }]}
-            >
-              <Text style={[styles.pillTxt, { color: t.accent }]}>{state.mode}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              testID="toggle-theme"
-              onPress={() => { haptic(); setTheme((p) => (p === 'classic' ? 'modern' : 'classic')); }}
-              style={[styles.pill, { borderColor: t.secondary }]}
-            >
-              <Text style={[styles.pillTxt, { color: t.secondary }]}>
-                {theme === 'classic' ? 'Clássico' : 'Moderno'}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity testID="open-history" onPress={() => { haptic(); setShowHistory(true); }} style={[styles.pill, { borderColor: t.muted }]}>
-              <Text style={[styles.pillTxt, { color: t.text }]}>Hist</Text>
-            </TouchableOpacity>
-            <TouchableOpacity testID="open-memory" onPress={() => { haptic(); setShowMemory(true); }} style={[styles.pill, { borderColor: t.muted }]}>
-              <Text style={[styles.pillTxt, { color: t.text }]}>Mem</Text>
-            </TouchableOpacity>
-            <TouchableOpacity testID="open-help" onPress={() => { haptic(); setShowHelp(true); }} style={[styles.pill, { borderColor: t.muted }]}>
-              <Text style={[styles.pillTxt, { color: t.text }]}>?</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={[styles.bezel, { backgroundColor: t.bezel, borderColor: t.bezelInner, padding: isLandscape ? 3 : 4 }]}>
-          <View style={[styles.display, { backgroundColor: t.displayBg, minHeight: isLandscape ? 56 : 90, paddingVertical: isLandscape ? 4 : 10 }]} testID="display-screen">
-            <View style={styles.indicatorRow}>
-              <Text style={[styles.ind, { color: state.shift === 'f' ? t.keyF : 'transparent' }]}>f</Text>
-              <Text style={[styles.ind, { color: state.shift === 'g' ? t.keyG : 'transparent' }]}>g</Text>
-              <Text style={[styles.ind, { color: state.mode === 'RPN' ? t.displayText : 'transparent', opacity: 0.6 }]}>RPN</Text>
-              <Text style={[styles.ind, { color: state.mode === 'ALG' ? t.displayText : 'transparent', opacity: 0.6 }]}>
-                {state.pendingOp ? opSym(state.pendingOp) : 'ALG'}
-              </Text>
-              <Text style={[styles.ind, { color: pendingMemOp ? t.displayText : 'transparent' }]}>{pendingMemOp || ''}</Text>
+        {/* Silver header panel */}
+        <View style={[styles.headerPanel, { backgroundColor: t.headerBg }]}>
+          <View style={[styles.topbar, isLandscape && { paddingVertical: 1 }]}>
+            <View>
+              <Text style={[styles.brandMain, { color: '#1A1A1A', fontSize: isLandscape ? 13 : 16 }]}>HP 12c</Text>
+              <Text style={[styles.brandSub, { color: '#1A1A1A', fontSize: isLandscape ? 10 : 12 }]}>Platinum</Text>
             </View>
-            <Text testID="display-value" style={[styles.displayText, { color: t.displayText, fontSize: isLandscape ? 26 : 38 }]} numberOfLines={1} adjustsFontSizeToFit>
-              {display}
-            </Text>
-            <View style={styles.stackRow}>
-              <Text style={[styles.stackTxt, { color: t.displayText, opacity: 0.55 }]}>Y: {fmt(state.stack.y, decimals)}</Text>
-              <Text style={[styles.stackTxt, { color: t.displayText, opacity: 0.4 }]}>Z: {fmt(state.stack.z, decimals)}</Text>
-              <Text style={[styles.stackTxt, { color: t.displayText, opacity: 0.3 }]}>T: {fmt(state.stack.t, decimals)}</Text>
+            <View style={[styles.hpLogo, { borderColor: '#1A1A1A' }]}>
+              <Text style={[styles.hpLogoTxt, { color: '#1A1A1A' }]}>hp</Text>
+            </View>
+            <View style={styles.topRight}>
+              <TouchableOpacity
+                testID="toggle-mode"
+                onPress={() => {
+                  haptic();
+                  setState((s) => ({ ...s, mode: s.mode === 'RPN' ? 'ALG' : 'RPN', algLeft: null, pendingOp: null }));
+                }}
+                style={[styles.pill, { borderColor: '#1A1A1A' }]}
+              >
+                <Text style={[styles.pillTxt, { color: '#1A1A1A' }]}>{state.mode}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                testID="toggle-theme"
+                onPress={() => { haptic(); setTheme((p) => (p === 'classic' ? 'modern' : 'classic')); }}
+                style={[styles.pill, { borderColor: t.secondary }]}
+              >
+                <Text style={[styles.pillTxt, { color: theme === 'classic' ? '#1A1A1A' : t.secondary }]}>
+                  {theme === 'classic' ? 'Clássico' : 'Moderno'}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity testID="open-history" onPress={() => { haptic(); setShowHistory(true); }} style={[styles.pill, { borderColor: '#555' }]}>
+                <Text style={[styles.pillTxt, { color: '#1A1A1A' }]}>Hist</Text>
+              </TouchableOpacity>
+              <TouchableOpacity testID="open-memory" onPress={() => { haptic(); setShowMemory(true); }} style={[styles.pill, { borderColor: '#555' }]}>
+                <Text style={[styles.pillTxt, { color: '#1A1A1A' }]}>Mem</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={[styles.bezel, { backgroundColor: t.bezel, borderColor: t.bezelInner, padding: isLandscape ? 3 : 4 }]}>
+            <View style={[styles.display, { backgroundColor: t.displayBg, minHeight: isLandscape ? 56 : 90, paddingVertical: isLandscape ? 4 : 10 }]} testID="display-screen">
+              <View style={styles.indicatorRow}>
+                <Text style={[styles.ind, { color: state.shift === 'f' ? t.keyF : 'transparent' }]}>f</Text>
+                <Text style={[styles.ind, { color: state.shift === 'g' ? t.keyG : 'transparent' }]}>g</Text>
+                <Text style={[styles.ind, { color: state.mode === 'RPN' ? t.displayText : 'transparent', opacity: 0.6 }]}>RPN</Text>
+                <Text style={[styles.ind, { color: state.mode === 'ALG' ? t.displayText : 'transparent', opacity: 0.6 }]}>
+                  {state.pendingOp ? opSym(state.pendingOp) : 'ALG'}
+                </Text>
+                <Text style={[styles.ind, { color: pendingMemOp ? t.displayText : 'transparent' }]}>{pendingMemOp || ''}</Text>
+              </View>
+              <Text testID="display-value" style={[styles.displayText, { color: t.displayText, fontSize: isLandscape ? 26 : 38 }]} numberOfLines={1} adjustsFontSizeToFit>
+                {display}
+              </Text>
+              <View style={styles.stackRow}>
+                <Text style={[styles.stackTxt, { color: t.displayText, opacity: 0.55 }]}>Y: {fmt(state.stack.y, decimals)}</Text>
+                <Text style={[styles.stackTxt, { color: t.displayText, opacity: 0.4 }]}>Z: {fmt(state.stack.z, decimals)}</Text>
+                <Text style={[styles.stackTxt, { color: t.displayText, opacity: 0.3 }]}>T: {fmt(state.stack.t, decimals)}</Text>
+              </View>
             </View>
           </View>
         </View>
@@ -1187,6 +1227,8 @@ export default function HP12C() {
           </View>
         </View>
       </Modal>
+
+      <Text style={[styles.footerBrand, { color: t.muted }]}>HEWLETT · PACKARD</Text>
     </SafeAreaView>
   );
 }
@@ -1194,15 +1236,20 @@ export default function HP12C() {
 const styles = StyleSheet.create({
   safe: { flex: 1 },
   body: { flex: 1, padding: 10, gap: 8 },
+  headerPanel: { borderRadius: 8, padding: 6, gap: 4 },
   topbar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 4,
-    paddingVertical: 4,
+    paddingVertical: 2,
   },
-  brand: { fontSize: 18, fontWeight: '800', letterSpacing: 2 },
-  topRight: { flexDirection: 'row', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' },
+  brandMain: { fontSize: 16, fontWeight: '700', letterSpacing: 1 },
+  brandSub: { fontSize: 12, fontWeight: '400', letterSpacing: 2 },
+  hpLogo: { width: 32, height: 32, borderRadius: 4, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
+  hpLogoTxt: { fontSize: 13, fontWeight: '800', fontStyle: 'italic' },
+  topRight: { flexDirection: 'row', gap: 5, flexWrap: 'wrap', justifyContent: 'flex-end', flex: 1, marginLeft: 8 },
+  footerBrand: { textAlign: 'center', fontSize: 10, fontWeight: '500', letterSpacing: 3, paddingVertical: 4 },
   pill: {
     paddingHorizontal: 10,
     paddingVertical: 5,
